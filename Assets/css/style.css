@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;    
+}
+
+body {
+    font-size: 32px;
+    display: flex;
+    margin-left: 30px;
+}
+
+/* less than 3 green   less than 8 is gold over 8 is red */
+.favorable {
+    background-color: green;
+        color:  white;
+  }
+  
+  .moderate {
+    background-color: goldenrod;
+    color: #000000;
+  }
+  
+  .severe {
+      background-color: red;
+      color: #000000;
+  }
+
+  aside {    
+    background-color: indigo;
+    width: 30%;
+    float: left;
+    box-shadow: inset 5px 0 5px -5px #29627e;
+    font-style: italic;
+    color: #eee;
+}
+
+.btn {
+    background-color: lavender;
+    color: black;
+    font-size: 40px;
+    display: block;
+    width: 90%;
+}
+
+.center {
+    margin-left: 2%;
+    background-color: hotpink;
+    color: black;
+}
