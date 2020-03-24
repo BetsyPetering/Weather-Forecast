@@ -1,60 +1,58 @@
-//test url:  https://api.openweathermap.org/data/2.5/weather?q=chicago&appid=8f96e056e7e69121bed0dba2ea062098
-
 var windDegree;
 var findCity = document.getElementById("citySearch");
 var tempF;
 var cityList = JSON.parse(window.localStorage.getItem("storedCities")) || [];
-console.log("cityList = " + cityList);
 
 currentDate = moment().format("l"); // 3/21/2020
 
-if (cityList.length != 0) {
+start();
+
+function start() {
+  if (cityList.length != 0) {
     for (i = 0; i < cityList.length; i++) {
-        console.log("i = " + i);
-      var cityButton = $("<button>").attr("value", cityList[i]).attr("class", "btn");
-      $(document).on("click", currentInfo(cityList[i]));  //THIS LINE
-      event.preventDefault();
+      var cityButton = $("<button>").attr("value", cityList[i]);
+      cityButton.attr("class", "btn");
+      cityButton.attr("onclick", "currentInfo('" + cityList[i] + "')");
+      cityButton.text(cityList[i]);
 
       $(".searched").append(cityButton);
-      //   $( "body" ).append( $newdiv1, [ newdiv2, existingdiv1 ] );
     }
-
-    findCity.addEventListener("click", getCityName);
-    getCityName();
-
-} else {
-    getCityName();
-
+  }
 }
+
+findCity.addEventListener("click", getCityName);
 
 function getCityName() {
-    var city = document.getElementById("city").value;
-  
-    currentInfo(city);
+  var city = document.getElementById("city").value;
+
+  currentInfo(city);
+
+  if (cityList.indexOf(city) == -1) {
+    var cityButton = $("<button>").attr("value", city);
+    cityButton.attr("class", "btn");
+    cityButton.attr("onclick", "currentInfo('" + city + "')");
+    cityButton.text(city);
+
+    cityList.push(city);
+    window.localStorage.setItem("storedCities", JSON.stringify(cityList));
+
+    $(".searched").append(cityButton);
+  }
 }
 
-function currentInfo(city) {
-  //have to get  current data in separate API than the 5 day forecast
-
-  cityList.push(city);
-  window.localStorage.setItem("storedCities", JSON.stringify(cityList));
+function currentInfo(city) {  //have to get  current data in separate API than the 5 day forecast
 
   var queryURL =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     "&appid=8f96e056e7e69121bed0dba2ea062098";
-  console.log(queryURL);
+
   $.ajax({
     url: queryURL,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
 
     currentTemp = Math.round((response.main.temp - 273.15) * 1.8 + 32);
-
-    //  translate  ℉=((K-273.15)*1.8)+32
-    console.log("kelvin = " + response.main.temp + " and F = " + currentTemp);
-
     windSpeed = Math.round(response.wind.speed);
 
     // Transfer content to HTML
@@ -66,9 +64,6 @@ function currentInfo(city) {
     // Converts the temp to Kelvin with the below formula
     tempF = (response.main.temp - 273.15) * 1.8 + 32;
     $(".tempF").text("Temperature (Kelvin) " + tempF);
-
-    console.log(response.weather[0].icon);
-
     var imageTag = $("<img>").attr(
       "src",
       "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png"
@@ -78,14 +73,11 @@ function currentInfo(city) {
 
     let lat = response.coord.lat; //latitude
     let lon = response.coord.lon; //longitude
-    console.log(lat);
-    console.log(lon);
 
     currentUv(lat, lon);
+    fiveDay(city);
   });
 }
-
-// http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}
 
 function currentUv(latitude, longitude) {
   var queryURL =
@@ -93,12 +85,11 @@ function currentUv(latitude, longitude) {
     latitude +
     "&lon=" +
     longitude;
-  console.log(queryURL);
+ 
   $.ajax({
     url: queryURL,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
 
     $(".uv").text("UV Index: ");
     $(".uva").text(response.value);
@@ -112,15 +103,51 @@ function currentUv(latitude, longitude) {
   });
 }
 
-// function fiveDay() {
-
-//     var queryURL="https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=8f96e056e7e69121bed0dba2ea062098";
-//     console.log(queryURL);
-//     $.ajax({
-//         url: queryURL,
-//         method: "GET"
-//     }).then(function(response) {
-//         console.log(response);
-//     });
-
+// function clearBox(city) {
+//     document.getElementById(fiver).innerHTML = "";
+//     fiveDay(city);
 // }
+
+function fiveDay(city) {
+  
+  var queryURL =
+    "https://api.openweathermap.org/data/2.5/forecast?q=" +
+    city +
+    "&appid=8f96e056e7e69121bed0dba2ea062098";
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
+
+    for (i = 0; i < response.list.length; i++) {
+      if (response.list[i].dt_txt.indexOf("15") != -1) {
+        var divTag = $("<div>").attr("class", "dayBlock");
+        $(".fiveDay").append(divTag);
+
+        var newTag = $("<img>").attr(
+          "src",
+          "http://openweathermap.org/img/w/" +
+            response.list[i].weather[0].icon +
+            ".png"
+        );
+
+        divTag.append(newTag);
+
+        var dateTag = $("<p>").attr("class", "date");
+        dateTag.text(new Date(response.list[i].dt_txt).toLocaleDateString());
+        divTag.append(dateTag);
+
+        // Converts the temp to Kelvin with the below formula
+        tempF = Math.round((response.list[i].main.temp - 273.15) * 1.8 + 32);
+
+        var tempTag = $("<p>").attr("class", "temp");
+        tempTag.text("Temperature " + tempF + "F");
+        divTag.append(tempTag);
+
+        var humidTag = $("<p>").attr("class", "humid");
+        humidTag.text("Humidity: " + response.list[i].main.humidity + "%");
+        divTag.append(humidTag);
+      }
+    }
+  });
+}

@@ -3,7 +3,7 @@
 }
 
 body {
-    font-size: 32px;
+    font-size: 24px;
     display: flex;
     margin-left: 30px;
 }
@@ -11,21 +11,23 @@ body {
 /* less than 3 green   less than 8 is gold over 8 is red */
 .favorable {
     background-color: green;
-        color:  white;
+    color:  white;
+    width: max-content;
   }
   
   .moderate {
     background-color: goldenrod;
     color: #000000;
+    width: max-content;
   }
   
   .severe {
       background-color: red;
       color: #000000;
+      width: max-content;
   }
 
   aside {    
-    background-color: indigo;
     width: 30%;
     float: left;
     box-shadow: inset 5px 0 5px -5px #29627e;
@@ -34,15 +36,35 @@ body {
 }
 
 .btn {
-    background-color: lavender;
+    background-color: rgb(230, 247, 228);
     color: black;
-    font-size: 40px;
+    font-size: 24px;
     display: block;
-    width: 90%;
+    width: 70%;
+    height: 32px;
+    border-color: black;
+    padding: 3px;
 }
 
 .center {
     margin-left: 2%;
     background-color: hotpink;
     color: black;
+    padding: 3px 10px 3px 10px;
+}
+
+.fiveDay {
+    display: flex;
+    margin: 10px;
+    background: chartreuse;
+}
+
+.dayBlock {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 150px;
+    border: 10px;
+    border-color: none;
+    text-align: left;
+    background-color: rgb(8, 114, 201);
+    color: rgb(245, 242, 238)
 }
