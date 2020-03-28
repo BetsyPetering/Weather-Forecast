@@ -57,7 +57,7 @@ function currentInfo(city) {  //have to get  current data in separate API than t
 
     // Transfer content to HTML
     $(".city").html(response.name + " (" + currentDate + ")");
-    $(".wind").text("Wind Direction and Speed: " + windSpeed + " mph");
+    $(".wind").text("Wind Speed: " + windSpeed + " mph");
     $(".humidity").text("Humidity: " + response.main.humidity + "%");
     $(".temp").text("Temperature: " + currentTemp + "F");
 
@@ -91,8 +91,8 @@ function currentUv(latitude, longitude) {
     method: "GET"
   }).then(function(response) {
 
-    $(".uv").text("UV Index: ");
-    $(".uva").text(response.value);
+    $(".uv").text("UV Index: " + response.value);
+    // $(".uva").text(response.value);
     if (response.value < 3) {
       $(".uva").addClass("favorable");
     } else if (response.value < 8) {
@@ -109,7 +109,7 @@ function currentUv(latitude, longitude) {
 // }
 
 function fiveDay(city) {
-  
+  $(".fiveDay").empty();
   var queryURL =
     "https://api.openweathermap.org/data/2.5/forecast?q=" +
     city +
@@ -139,6 +139,8 @@ function fiveDay(city) {
 
         // Converts the temp to Kelvin with the below formula
         tempF = Math.round((response.list[i].main.temp - 273.15) * 1.8 + 32);
+        // (0K − 273.15) × 9/5 + 32 = -459.7°F
+
 
         var tempTag = $("<p>").attr("class", "temp");
         tempTag.text("Temperature " + tempF + "F");
@@ -146,6 +148,7 @@ function fiveDay(city) {
 
         var humidTag = $("<p>").attr("class", "humid");
         humidTag.text("Humidity: " + response.list[i].main.humidity + "%");
+
         divTag.append(humidTag);
       }
     }
