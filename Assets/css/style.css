@@ -4,11 +4,9 @@
 
 body {
     font-size: 24px;
-    display: flex;
     margin-left: 30px;
 }
 
-/* less than 3 green   less than 8 is gold over 8 is red */
 .favorable {
     background-color: green;
     color:  white;
@@ -29,43 +27,24 @@ body {
 
   aside {    
     width: 30%;
-    float: left;
     box-shadow: inset 5px 0 5px -5px #29627e;
     font-style: italic;
     color: rgb(163, 20, 75);
 }
 
-/* .btn {
+.btn {
     background-color: rgb(230, 247, 228);
     color: black;
     font-size: 24px;
-    display: block;
     width: 70%;
     height: 32px;
     border-color: black;
     border-bottom: 2px;
     padding: 3px;
-} */
-
-button {
-    display: block;
-    border: none;
-    padding: 1rem 2rem;
-    margin: 0;
-    text-decoration: none;
-    background: #002a5e;
-    color: #f8e8c9;
-    font-family: sans-serif;
-    font-size: 1rem;
-    cursor: pointer;
-    text-align: center;
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
-button:hover,
-button:focus {
-    background: #0053ba;
+.container {
+    background-color: darkcyan;
 }
 
 .center {
@@ -73,13 +52,11 @@ button:focus {
     background-color: hotpink;
     color: black;
     padding: 3px 10px 3px 10px;
+
 }
 
 .fiveDay {
-    display: block;
-    position: absolute;
-    max-width: 200px;
-    
+    max-width: 200px;    
     margin: 10px;
     background: chartreuse;
 }
