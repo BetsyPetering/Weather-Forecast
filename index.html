@@ -15,24 +15,21 @@
     <link rel="stylesheet" href="./Assets/css/style.css" />
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather or Not</title>
+    <title>Weather</title>
 </head>
 
 <body>
 
-    <aside>
+    <section class="page">
 
-        <div class="cont">
+        <div class="choice" id="one">
             <input id="city" maxlength="25" />
-            <button id="citySearch">Click Me!</button>
+            <button type="submit" id="citySearch">Get Weather!</button>
             <div class="searched">
             </div>
         </div>
-        
-    </aside>
-    
-        <div class="center">
+
+        <div class="two">
             <div class="city"></div>
             <div class="wind"></div>
             <div class="humidity"></div>
@@ -44,9 +41,12 @@
             </div>
         </div>
 
-        <div class="fiveDay" id="fiver">
+        <div class="look_ahead">
+            <div class="three" id="fiver">
 
+            </div>
         </div>
+    </section>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
